@@ -53,8 +53,8 @@ public class AndroidGmailService extends Service {
 		new AndroidGmailServiceInterface.Stub() {
 
 		@Override
-		public int sendSetting(String user, String password, int index) throws RemoteException {
-			int msgNumber = sendSettingConc(user, password, index);
+		public int sendSetting(int index) throws RemoteException {
+			int msgNumber = sendSettingConc(index);
 			return msgNumber;
 		}
 
@@ -321,7 +321,7 @@ public class AndroidGmailService extends Service {
 		editor.commit();
 	}
 
-	private int sendSettingConc(String user, String password, int index) {
+	private int sendSettingConc(int index) {
 		readTmpPreferences();
 
 		String from = user + "@gmail.com";
