@@ -41,7 +41,6 @@ public class SysPWSettingActivity extends Activity {
 		syspwsettingReenterpasswordEt = (EditText)findViewById(R.id.syspwsettingReenterpasswordEt);
 		syspwsettingSetBtn = (Button)findViewById(R.id.syspwsettingSetBtn);
 		syspwsettingPwresettingBtn = (Button)findViewById(R.id.syspwsettingPwresettingBtn);
-
 	}
 
 	@Override

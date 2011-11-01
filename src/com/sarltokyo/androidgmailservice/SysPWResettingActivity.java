@@ -74,8 +74,8 @@ public class SysPWResettingActivity extends Activity {
 				if (newSyspw != null && newSyspw.length() > 0
 						&& reenteredNewSyspw != null && reenteredNewSyspw.length() > 0) {
 					if (newSyspw.equals(reenteredNewSyspw))	 {
-						saveKey();
-						syskey = getKey();
+						saveSysKey();
+						syskey = getSysKey();
 						syspw = newSyspw;
 						try {
 							encryptedSysPW = getEncryptedPW();
@@ -134,7 +134,7 @@ public class SysPWResettingActivity extends Activity {
 		});
 	}
 
-	public void saveKey() {
+	public void saveSysKey() {
 		InputStream in = null;
 		OutputStream out = null;
 		boolean existFlag = true;
@@ -180,7 +180,7 @@ public class SysPWResettingActivity extends Activity {
 		}
 	}
 
-    public Key getKey() {
+    public Key getSysKey() {
     	InputStream in = null;
 
     	try {
@@ -212,7 +212,7 @@ public class SysPWResettingActivity extends Activity {
     }
 
     public String getEncryptedPW() throws Exception {
-    	syskey = getKey();
+    	syskey = getSysKey();
     	encryptedSysPW = Crypto.encrypt(syskey, syspw);
     	return encryptedSysPW;
     }
