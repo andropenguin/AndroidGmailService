@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World!</string>
     <string name="app_name">AndroidGmailService</string>
+    <string name="error">error</string>
+    <string name="system_passwords_not_the_same">Two system passwords are not the same.</string>
+    <string name="system_password_set">System password was set.</string>
+    <string name="enter_system_password">Enter system password.</string>
+	<string name="enter_new_system_password">Enter new system password.</string>
 </resources>

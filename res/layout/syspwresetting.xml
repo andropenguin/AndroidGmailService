@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="#7fffd4">
+  <TextView
+		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+		android:gravity="center_horizontal"
+		android:paddingTop="20dip"
+		android:paddingBottom="20dip"
+		android:text="System password re-setting"
+		android:textSize="20sp"
+		android:textColor="@color/darkblue">
+	</TextView>
+	<LinearLayout
+ 		android:orientation="horizontal"
+      	android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dip">
+		<TextView
+			android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+		</TextView>
+		<Button
+			android:id="@+id/syspwresettingReturnBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="return"
+            android:textColor="@color/darkblue">
+  		</Button>
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<TableLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TableRow>
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingLeft="20dip"
+					android:width="100.0sp"
+					android:text="old \n password: "
+					android:textColor="@color/darkblue">
+				</TextView>
+				<EditText android:id="@+id/syspwresettingOldpasswordEt"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:password="true"
+					android:layout_weight="1">
+				</EditText>
+				<TextView
+					android:layout_width="20dip"
+					android:layout_height="wrap_content">
+				</TextView>
+			</TableRow>
+			<TableRow>
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingLeft="20dip"
+					android:width="100.0sp"
+					android:text="new \n password: "
+					android:textColor="@color/darkblue">
+				</TextView>
+				<EditText android:id="@+id/syspwresettingNewpasswordEt"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:password="true"
+					android:layout_weight="1">
+				</EditText>
+				<TextView
+					android:layout_width="20dip"
+					android:layout_height="wrap_content">
+				</TextView>
+			</TableRow>
+			<TableRow>
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingLeft="20dip"
+					android:width="100.0sp"
+					android:text="new \n password: "
+					android:textColor="@color/darkblue">
+				</TextView>
+				<EditText android:id="@+id/syspwresettingReenternewpasswordEt"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:password="true"
+					android:layout_weight="1">
+				</EditText>
+				<TextView
+					android:layout_width="20dip"
+					android:layout_height="wrap_content">
+				</TextView>
+			</TableRow>
+		</TableLayout>
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="10dip">
+		</TextView>
+		<Button android:id="@+id/syspwresettingSetBtn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="re-set"
+			android:textColor="@color/darkblue">
+		</Button>
+		<TextView
+			android:layout_width="fill_parent"
+			android:layout_height="20dip">
+		</TextView>
+	</LinearLayout>
+</LinearLayout>
