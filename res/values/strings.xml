@@ -6,4 +6,5 @@
     <string name="system_password_set">System password was set.</string>
     <string name="enter_system_password">Enter system password.</string>
 	<string name="enter_new_system_password">Enter new system password.</string>
+	<string name="system_password_is_wrong">Ststem password is wrong.</string>
 </resources>

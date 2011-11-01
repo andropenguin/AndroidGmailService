@@ -68,6 +68,23 @@ public class SysPWResettingActivity extends Activity {
 					return;
 				}
 
+				// encription of input used system password
+				syskey = getSysKey();
+				try {
+					encryptedInputOldSyspw = Crypto.encrypt(syskey, inputOldSyspw);
+				} catch (Exception e) {
+					Log.e(TAG, e.getMessage(), e);
+				}
+				// get encrypted system password from SharedPrefeence
+				SharedPreferences pref2 = getSharedPreferences("AndroidGmail", MODE_PRIVATE);
+				encryptedOldSyspw = pref2.getString("sysPW", "");
+				// check
+				if (!encryptedInputOldSyspw.equals(encryptedOldSyspw)) {
+					Toast toast = Toast.makeText(SysPWResettingActivity.this, getString(R.string.system_password_is_wrong), Toast.LENGTH_LONG);
+					toast.show();
+					return;
+				}
+
 				newSyspw = syspwresettingNewpasswordEt.getText().toString();
 				reenteredNewSyspw = syspwresettingReenternewpasswordEt.getText().toString();
 
