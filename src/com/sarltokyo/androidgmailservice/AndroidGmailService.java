@@ -32,6 +32,8 @@ public class AndroidGmailService extends Service {
 	private Key key;
 	private String encryptedPW;
 	private String password;
+	private Key syskey;
+	private String encryptedSysPW;
 
 	private static final String HOST = "smtp.gmail.com";
 	private static final String PROTOCOL = "imaps";
@@ -42,6 +44,9 @@ public class AndroidGmailService extends Service {
 	private static final String EXT = ".txt";
 	private static final String PREF_TMP = "AndroidGmailServiceTmp";
 	private static final String PREF = "AndroidGmailService";
+
+	private static final int SYSPW_OK = 0;
+	private static final int SYSPW_ERROR = -1;
 
 
 	@Override
@@ -770,4 +775,64 @@ public class AndroidGmailService extends Service {
 
 		return msgNumber;
 	}
+
+	public int verify(String syspw) {
+		String encryptedSysPW = "";
+		String savedEncryptedSysPW = "";
+		// encrypt syspw
+		syskey = getSysKey();
+		try {
+			encryptedSysPW = getEncryptedPW(syspw);
+		} catch (Exception e)  {
+			Log.e(TAG, e.getMessage(), e);
+			return SYSPW_ERROR;
+		}
+		// read encryptdPW from SharedPreference
+		SharedPreferences pref = getSharedPreferences("AndroidGmail", MODE_PRIVATE);
+		savedEncryptedSysPW = pref.getString("sysPW", "");
+
+		// compare
+		if (encryptedSysPW.equals(savedEncryptedSysPW)) {
+			return SYSPW_OK;
+		} else {
+			return SYSPW_ERROR;
+		}
+	}
+
+    public Key getSysKey() {
+    	InputStream in = null;
+
+    	try {
+    		in = openFileInput(AndroidGmailConstant.SYSKEY_FILE);
+    	} catch (FileNotFoundException e) {
+    		Log.e(TAG, e.getMessage(), e);
+    	}
+    	try {
+    		ObjectInputStream ois = new ObjectInputStream(in);
+    		syskey = (Key)ois.readObject();
+    		ois.close();
+    		in.close();
+    	} catch (IOException e) {
+    		Log.e(TAG, e.getMessage(), e);
+    		try {
+    			if (in != null) in.close();
+    		} catch (IOException e2) {
+    			Log.e(TAG, e2.getMessage(), e2);
+    		}
+    	} catch (ClassNotFoundException e) {
+    		Log.e(TAG, e.getMessage(), e);
+    		try {
+    			if (in != null) in.close();
+    		} catch (IOException e2) {
+    			Log.e(TAG, e2.getMessage(), e2);
+    		}
+    	}
+    	return syskey;
+    }
+
+    public String getEncryptedPW(String syspw) throws Exception {
+    	syskey = getSysKey();
+    	String encryptedSysPW = Crypto.encrypt(syskey, syspw);
+    	return encryptedSysPW;
+    }
 }
