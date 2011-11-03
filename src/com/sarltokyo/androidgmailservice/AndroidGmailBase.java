@@ -20,6 +20,7 @@ public class AndroidGmailBase {
 	public final static int ERROR_CODE_FILENOTFOUNDEXCEPION = -11;
 	public final static int ERROR_CODE_IOEXCEPTION = -12;
 	public final static int ERROR_CODE_CLASSNOTFOUNDEXCEPTION = -13;
+	public final static int ERROR_CODE_SYSTEMPW_NOT_SAME = -14;
 
 	public final static int KIND_SAMPLE_MAILER = 0;
 	public final static int KIND_RECORDROIDAD = 1;

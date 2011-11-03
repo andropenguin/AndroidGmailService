@@ -16,7 +16,7 @@ interface AndroidGmailServiceInterface {
 	int send5(in String[] to, String from, String subject, String body, in String[] filename, int index);
 
 	// send a setting
-	int sendSetting(int index);
+	int sendSetting(String syspw, int index);
 
 	// receive a mail
 	int retrieve1(int msgNumber, int index);

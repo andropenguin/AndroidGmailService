@@ -58,8 +58,8 @@ public class AndroidGmailService extends Service {
 		new AndroidGmailServiceInterface.Stub() {
 
 		@Override
-		public int sendSetting(int index) throws RemoteException {
-			int msgNumber = sendSettingConc(index);
+		public int sendSetting(String syspw, int index) throws RemoteException {
+			int msgNumber = sendSettingConc(syspw, index);
 			return msgNumber;
 		}
 
@@ -326,7 +326,27 @@ public class AndroidGmailService extends Service {
 		editor.commit();
 	}
 
-	private int sendSettingConc(int index) {
+	private int sendSettingConc(String syspw, int index) {
+		String givenEncryptedSyspw = "";
+		// encrypt the give system password
+		try {
+			givenEncryptedSyspw = getEncryptedSysPW(syspw);
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+			return AndroidGmailBase.ERROR_CODE_EXCEPTION;
+		}
+
+		// read the encryped system password from SharedPreference
+		SharedPreferences pref = getSharedPreferences("SysPW", MODE_PRIVATE);
+		String savedEncryptedSysPW = pref.getString("syspw", "");
+
+		// compare
+		if (givenEncryptedSyspw.length() == 0 ||
+				savedEncryptedSysPW.length() == 0 ||
+				!givenEncryptedSyspw.equals(savedEncryptedSysPW)) {
+			return AndroidGmailBase.ERROR_CODE_SYSTEMPW_NOT_SAME;
+		}
+
 		readTmpPreferences();
 
 		String from = user + "@gmail.com";

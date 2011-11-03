@@ -76,8 +76,8 @@ public class SysPWResettingActivity extends Activity {
 					Log.e(TAG, e.getMessage(), e);
 				}
 				// get encrypted system password from SharedPrefeence
-				SharedPreferences pref2 = getSharedPreferences("AndroidGmail", MODE_PRIVATE);
-				encryptedOldSyspw = pref2.getString("sysPW", "");
+				SharedPreferences pref2 = getSharedPreferences("SysPW", MODE_PRIVATE);
+				encryptedOldSyspw = pref2.getString("syspw", "");
 				// check
 				if (!encryptedInputOldSyspw.equals(encryptedOldSyspw)) {
 					Toast toast = Toast.makeText(SysPWResettingActivity.this, getString(R.string.system_password_is_wrong), Toast.LENGTH_LONG);
@@ -100,9 +100,9 @@ public class SysPWResettingActivity extends Activity {
 							Log.e(TAG, e.getMessage(), e);
 							return;
 						}
-						SharedPreferences pref = getSharedPreferences("AndroidGmail", MODE_PRIVATE);
+						SharedPreferences pref = getSharedPreferences("SysPW", MODE_PRIVATE);
 						SharedPreferences.Editor editor = pref.edit();
-						editor.putString("sysPW", encryptedSysPW);
+						editor.putString("syspw", encryptedSysPW);
 						editor.commit();
 						Toast toast = Toast.makeText(SysPWResettingActivity.this, getString(R.string.system_password_set),
 								Toast.LENGTH_LONG);

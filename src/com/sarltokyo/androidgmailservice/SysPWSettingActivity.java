@@ -47,8 +47,8 @@ public class SysPWSettingActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 
-		SharedPreferences pref = getSharedPreferences("AndroidGmail", MODE_PRIVATE);
-		encryptedSysPW = pref.getString("sysPW", "");
+		SharedPreferences pref = getSharedPreferences("SysPW", MODE_PRIVATE);
+		encryptedSysPW = pref.getString("syspw", "");
 		if (encryptedSysPW != null && encryptedSysPW.length() > 0) {
 			syspwsettingPasswordEt.setEnabled(false);
 			syspwsettingReenterpasswordEt.setEnabled(false);
@@ -78,9 +78,9 @@ public class SysPWSettingActivity extends Activity {
 							Log.e(TAG, e.getMessage(), e);
 							return;
 						}
-						SharedPreferences pref = getSharedPreferences("AndroidGmail", MODE_PRIVATE);
+						SharedPreferences pref = getSharedPreferences("SysPW", MODE_PRIVATE);
 						SharedPreferences.Editor editor = pref.edit();
-						editor.putString("sysPW", encryptedSysPW);
+						editor.putString("syspw", encryptedSysPW);
 						editor.commit();
 						Toast toast = Toast.makeText(SysPWSettingActivity.this, getString(R.string.system_password_set),
 								Toast.LENGTH_LONG);
