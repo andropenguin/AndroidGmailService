@@ -782,7 +782,7 @@ public class AndroidGmailService extends Service {
 		// encrypt syspw
 		syskey = getSysKey();
 		try {
-			encryptedSysPW = getEncryptedPW(syspw);
+			encryptedSysPW = getEncryptedSysPW(syspw);
 		} catch (Exception e)  {
 			Log.e(TAG, e.getMessage(), e);
 			return SYSPW_ERROR;
@@ -830,7 +830,7 @@ public class AndroidGmailService extends Service {
     	return syskey;
     }
 
-    public String getEncryptedPW(String syspw) throws Exception {
+    public String getEncryptedSysPW(String syspw) throws Exception {
     	syskey = getSysKey();
     	String encryptedSysPW = Crypto.encrypt(syskey, syspw);
     	return encryptedSysPW;

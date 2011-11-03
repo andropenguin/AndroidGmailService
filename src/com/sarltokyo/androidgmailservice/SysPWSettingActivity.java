@@ -73,7 +73,7 @@ public class SysPWSettingActivity extends Activity {
 						saveSysKey();
 						syskey = getSysKey();
 						try {
-							encryptedSysPW = getEncryptedPW(syspw);
+							encryptedSysPW = getEncryptedSysPW(syspw);
 						} catch (Exception e) {
 							Log.e(TAG, e.getMessage(), e);
 							return;
@@ -208,7 +208,7 @@ public class SysPWSettingActivity extends Activity {
     	return syskey;
     }
 
-    public String getEncryptedPW(String syspw) throws Exception {
+    public String getEncryptedSysPW(String syspw) throws Exception {
     	syskey = getSysKey();
     	encryptedSysPW = Crypto.encrypt(syskey, syspw);
     	return encryptedSysPW;
