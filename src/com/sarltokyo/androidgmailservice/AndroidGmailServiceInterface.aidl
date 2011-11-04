@@ -9,21 +9,21 @@ package com.sarltokyo.androidgmailservice;
 
 interface AndroidGmailServiceInterface {
 	// send a mail
-	int send1(String to, String from, String subject, String body, int index);
-	int send2(in String[] to, String from, String subject, String body, int index);
-	int send3(String to, String from, String subject, String body, String filename, int index);
-	int send4(in String[] to, String from, String subject, String body, String filename, int index);
-	int send5(in String[] to, String from, String subject, String body, in String[] filename, int index);
+	int send1(String to, String from, String subject, String body, long random, int index);
+	int send2(in String[] to, String from, String subject, String body, long random, int index);
+	int send3(String to, String from, String subject, String body, String filename, long random, int index);
+	int send4(in String[] to, String from, String subject, String body, String filename, long random, int index);
+	int send5(in String[] to, String from, String subject, String body, in String[] filename, long random, int index);
 
 	// send a setting
 	int sendSetting(String syspw, int index);
 
 	// receive a mail
-	int retrieve1(int msgNumber, int index);
-	int retrieve2(int msgNumber, int index, out String[] message);
+	int retrieve1(int msgNumber, long random, int index);
+	int retrieve2(int msgNumber, long random, int index, out String[] message);
 
 	// delete a mail
-	int delete(int msgNumber, int index);
+	int delete(int msgNumber, long random, int index);
 
 	// write preferences of account information temporary
 	int writeTmpPreferences(String user, String password);

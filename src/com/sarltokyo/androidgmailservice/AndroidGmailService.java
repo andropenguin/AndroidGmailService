@@ -46,7 +46,9 @@ public class AndroidGmailService extends Service {
 	private static final String PREF = "AndroidGmailService";
 
 	private static final int SYSPW_OK = 0;
+	private static final int RANDOM_OK = 1;
 	private static final int SYSPW_ERROR = -1;
+	private static final int RANDOM_ERROR = -2;
 
 
 	@Override
@@ -64,8 +66,11 @@ public class AndroidGmailService extends Service {
 		}
 
 		@Override
-		public int send1(String to, String from, String subject, String body, int index)
+		public int send1(String to, String from, String subject, String body, long random, int index)
 		throws RemoteException {
+			int returnCode = verifyRandom(random, index);
+			if (returnCode < 0)
+				return returnCode;
 			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
@@ -75,8 +80,11 @@ public class AndroidGmailService extends Service {
 		}
 
 		@Override
-		public int send2(String[] to, String from, String subject, String body, int index)
+		public int send2(String[] to, String from, String subject, String body, long random, int index)
 		throws RemoteException {
+			int returnCode = verifyRandom(random, index);
+			if (returnCode < 0)
+				return returnCode;
 			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
@@ -87,7 +95,10 @@ public class AndroidGmailService extends Service {
 
 		@Override
 		public int send3(String to, String from, String subject, String body,
-				String filename, int index) throws RemoteException {
+				String filename, long random, int index) throws RemoteException {
+			int returnCode = verifyRandom(random, index);
+			if (returnCode < 0)
+				return returnCode;
 			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
@@ -98,7 +109,10 @@ public class AndroidGmailService extends Service {
 
 		@Override
 		public int send4(String[] to, String from, String subject, String body,
-				String filename, int index) throws RemoteException {
+				String filename, long random, int index) throws RemoteException {
+			int returnCode = verifyRandom(random, index);
+			if (returnCode < 0)
+				return returnCode;
 			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
@@ -109,7 +123,10 @@ public class AndroidGmailService extends Service {
 
 		@Override
 		public int send5(String[] to, String from, String subject, String body,
-				String[] filename, int index) throws RemoteException {
+				String[] filename, long random, int index) throws RemoteException {
+			int returnCode = verifyRandom(random, index);
+			if (returnCode < 0)
+				return returnCode;
 			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
@@ -120,7 +137,10 @@ public class AndroidGmailService extends Service {
 
 
 		@Override
-		public int retrieve1(int msgNumber, int index) throws RemoteException {
+		public int retrieve1(int msgNumber, long random, int index) throws RemoteException {
+			int returnCode = verifyRandom(random, index);
+			if (returnCode < 0)
+				return returnCode;
 			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
@@ -129,8 +149,10 @@ public class AndroidGmailService extends Service {
 		}
 
 		@Override
-		public int retrieve2(int msgNumber, int index, String[] message) throws RemoteException {
-
+		public int retrieve2(int msgNumber, long random, int index, String[] message) throws RemoteException {
+			int returnCode = verifyRandom(random, index);
+			if (returnCode < 0)
+				return returnCode;
 			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
@@ -139,7 +161,10 @@ public class AndroidGmailService extends Service {
 		}
 
 		@Override
-		public int delete(int msgNumber, int index) throws RemoteException {
+		public int delete(int msgNumber, long random, int index) throws RemoteException {
+			int returnCode = verifyRandom(random, index);
+			if (returnCode < 0)
+				return returnCode;
 			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
@@ -807,6 +832,24 @@ public class AndroidGmailService extends Service {
 			return SYSPW_OK;
 		} else {
 			return SYSPW_ERROR;
+		}
+	}
+
+	public int verifyRandom(long random, int index) {
+		long savedRandom = 0L;
+		// read SharedPreference
+		SharedPreferences pref = getSharedPreferences("AndroidGmailService", MODE_PRIVATE);
+		String savedRandomStr = pref.getString("random" + index, "");
+		try {
+			savedRandom = Long.parseLong(savedRandomStr);
+		} catch (NumberFormatException e) {
+			Log.e(TAG, e.getMessage(), e);
+			return AndroidGmailBase.ERROR_CODE_EXCEPTION;
+		}
+		if (random == savedRandom) {
+			return RANDOM_OK;
+		} else {
+			return AndroidGmailBase.ERROR_CODE_SYSTEMPW_NOT_SAME;
 		}
 	}
 
