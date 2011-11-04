@@ -66,7 +66,7 @@ public class AndroidGmailService extends Service {
 		@Override
 		public int send1(String to, String from, String subject, String body, int index)
 		throws RemoteException {
-			int errorCode = readPreferences(index);
+			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
 			}
@@ -77,7 +77,7 @@ public class AndroidGmailService extends Service {
 		@Override
 		public int send2(String[] to, String from, String subject, String body, int index)
 		throws RemoteException {
-			int errorCode = readPreferences(index);
+			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
 			}
@@ -88,7 +88,7 @@ public class AndroidGmailService extends Service {
 		@Override
 		public int send3(String to, String from, String subject, String body,
 				String filename, int index) throws RemoteException {
-			int errorCode = readPreferences(index);
+			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
 			}
@@ -99,7 +99,7 @@ public class AndroidGmailService extends Service {
 		@Override
 		public int send4(String[] to, String from, String subject, String body,
 				String filename, int index) throws RemoteException {
-			int errorCode = readPreferences(index);
+			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
 			}
@@ -110,7 +110,7 @@ public class AndroidGmailService extends Service {
 		@Override
 		public int send5(String[] to, String from, String subject, String body,
 				String[] filename, int index) throws RemoteException {
-			int errorCode = readPreferences(index);
+			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
 			}
@@ -121,7 +121,7 @@ public class AndroidGmailService extends Service {
 
 		@Override
 		public int retrieve1(int msgNumber, int index) throws RemoteException {
-			int errorCode = readPreferences(index);
+			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
 			}
@@ -131,7 +131,7 @@ public class AndroidGmailService extends Service {
 		@Override
 		public int retrieve2(int msgNumber, int index, String[] message) throws RemoteException {
 
-			int errorCode = readPreferences(index);
+			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
 			}
@@ -140,7 +140,7 @@ public class AndroidGmailService extends Service {
 
 		@Override
 		public int delete(int msgNumber, int index) throws RemoteException {
-			int errorCode = readPreferences(index);
+			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return errorCode;
 			}
@@ -227,7 +227,7 @@ public class AndroidGmailService extends Service {
 
 		@Override
 		public String readPreference(int index) throws RemoteException {
-			int errorCode = readPreferences(index);
+			int errorCode = readPreferenceConc(index);
 			if (errorCode < 0) {
 				return null;
 			}
@@ -256,7 +256,7 @@ public class AndroidGmailService extends Service {
 		this.password = pref.getString("password", "");
 	}
 
-	private int readPreferences(int index) {
+	private int readPreferenceConc(int index) {
 		InputStream in = null;
 
 		Log.i(TAG, "before openFileInput");
