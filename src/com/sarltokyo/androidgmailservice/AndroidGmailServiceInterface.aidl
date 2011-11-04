@@ -29,5 +29,5 @@ interface AndroidGmailServiceInterface {
 	int writeTmpPreferences(String user, String password);
 
 	// write preferences of account information
-	int writePreferences(String user, String password, int index);
+	int writePreferences(String user, String password, long random, int index);
 }

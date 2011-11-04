@@ -162,7 +162,7 @@ public class AndroidGmailService extends Service {
 		}
 
 		@Override
-		public int writePreferences(String user, String password, int index)
+		public int writePreferences(String user, String password, long random, int index)
 		throws RemoteException {
 			OutputStream out = null;
 
@@ -208,6 +208,7 @@ public class AndroidGmailService extends Service {
 			SharedPreferences.Editor editor = pref.edit();
 			editor.putString("user" + index, user);
 			editor.putString("encryptedPW" + index, AndroidGmailService.this.encryptedPW);
+			editor.putString("random" + index, Long.toString(random));
 			editor.commit();
 
 			/*
