@@ -30,7 +30,4 @@ interface AndroidGmailServiceInterface {
 
 	// write preferences of account information
 	int writePreferences(String user, String password, int index);
-
-	// readPreference of account information
-	String readPreference(int index);
 }

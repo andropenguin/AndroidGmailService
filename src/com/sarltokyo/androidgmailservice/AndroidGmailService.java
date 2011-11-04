@@ -224,16 +224,6 @@ public class AndroidGmailService extends Service {
 
 			return 0;
 		}
-
-		@Override
-		public String readPreference(int index) throws RemoteException {
-			int errorCode = readPreferenceConc(index);
-			if (errorCode < 0) {
-				return null;
-			}
-			Log.i(TAG, "user = " + AndroidGmailService.this.user);
-			return AndroidGmailService.this.user;
-		}
 	};
 
 	@Override
