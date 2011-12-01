@@ -3,8 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:background="#7fffd4">
+  android:layout_height="fill_parent">
   <TextView
 		android:layout_width="fill_parent"
   		android:layout_height="wrap_content"
@@ -12,8 +11,7 @@
 		android:paddingTop="20dip"
 		android:paddingBottom="20dip"
 		android:text="System password re-setting"
-		android:textSize="20sp"
-		android:textColor="@color/darkblue">
+		android:textSize="20sp">
 	</TextView>
 	<LinearLayout
  		android:orientation="horizontal"
@@ -29,8 +27,7 @@
 			android:id="@+id/syspwresettingReturnBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="return"
-            android:textColor="@color/darkblue">
+            android:text="return">
   		</Button>
 	</LinearLayout>
 	<LinearLayout
@@ -46,8 +43,7 @@
 					android:layout_height="wrap_content"
 					android:paddingLeft="20dip"
 					android:width="100.0sp"
-					android:text="old \n password: "
-					android:textColor="@color/darkblue">
+					android:text="old \n password: ">
 				</TextView>
 				<EditText android:id="@+id/syspwresettingOldpasswordEt"
 					android:layout_width="wrap_content"
@@ -66,8 +62,7 @@
 					android:layout_height="wrap_content"
 					android:paddingLeft="20dip"
 					android:width="100.0sp"
-					android:text="new \n password: "
-					android:textColor="@color/darkblue">
+					android:text="new \n password: ">
 				</TextView>
 				<EditText android:id="@+id/syspwresettingNewpasswordEt"
 					android:layout_width="wrap_content"
@@ -86,8 +81,7 @@
 					android:layout_height="wrap_content"
 					android:paddingLeft="20dip"
 					android:width="100.0sp"
-					android:text="new \n password: "
-					android:textColor="@color/darkblue">
+					android:text="new \n password: ">
 				</TextView>
 				<EditText android:id="@+id/syspwresettingReenternewpasswordEt"
 					android:layout_width="wrap_content"
@@ -109,8 +103,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
-			android:text="re-set"
-			android:textColor="@color/darkblue">
+			android:text="re-set">
 		</Button>
 		<TextView
 			android:layout_width="fill_parent"
