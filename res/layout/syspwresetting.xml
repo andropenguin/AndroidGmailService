@@ -10,7 +10,7 @@
 		android:gravity="center_horizontal"
 		android:paddingTop="20dip"
 		android:paddingBottom="20dip"
-		android:text="System password re-setting"
+		android:text="@string/System_password_re_setting"
 		android:textSize="20sp">
 	</TextView>
 	<LinearLayout
@@ -27,7 +27,7 @@
 			android:id="@+id/syspwresettingReturnBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="return">
+            android:text="@string/return_">
   		</Button>
 	</LinearLayout>
 	<LinearLayout
@@ -43,7 +43,7 @@
 					android:layout_height="wrap_content"
 					android:paddingLeft="20dip"
 					android:width="100.0sp"
-					android:text="old \n password: ">
+					android:text="@string/old_password">
 				</TextView>
 				<EditText android:id="@+id/syspwresettingOldpasswordEt"
 					android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
 					android:layout_height="wrap_content"
 					android:paddingLeft="20dip"
 					android:width="100.0sp"
-					android:text="new \n password: ">
+					android:text="@string/new_password">
 				</TextView>
 				<EditText android:id="@+id/syspwresettingNewpasswordEt"
 					android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
 					android:layout_height="wrap_content"
 					android:paddingLeft="20dip"
 					android:width="100.0sp"
-					android:text="new \n password: ">
+					android:text="@string/new_password">
 				</TextView>
 				<EditText android:id="@+id/syspwresettingReenternewpasswordEt"
 					android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
-			android:text="re-set">
+			android:text="@string/re_set">
 		</Button>
 		<TextView
 			android:layout_width="fill_parent"

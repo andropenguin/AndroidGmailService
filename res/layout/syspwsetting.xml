@@ -10,7 +10,7 @@
 		android:gravity="center_horizontal"
 		android:paddingTop="20dip"
 		android:paddingBottom="20dip"
-		android:text="System password setting"
+		android:text="@string/System_password_setting"
 		android:textSize="20sp">
 	</TextView>
 	<TextView
@@ -19,7 +19,7 @@
 		android:paddingLeft="20dip"
 		android:paddingRight="20dip"
 		android:paddingBottom="20dip"
-		android:text="You have to set system password for AndroidGmailService. This password is used by applications which use this service application. Caution! It is not a gmail password.">
+		android:text="@string/have_to_set_system_password">
 	</TextView>
 	<LinearLayout
 		android:orientation="vertical"
@@ -33,7 +33,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:paddingLeft="20dip"
-					android:text="system password: ">
+					android:text="@string/system_password">
 				</TextView>
 				<EditText android:id="@+id/syspwsettingPasswordEt"
 					android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:paddingLeft="20dip"
-					android:text="re-enter: ">
+					android:text="@string/re_enter">
 				</TextView>
 				<EditText android:id="@+id/syspwsettingReenterpasswordEt"
 					android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
-			android:text="set">
+			android:text="@string/set">
 		</Button>
 		<TextView
 			android:layout_width="fill_parent"
@@ -91,7 +91,7 @@
 			<Button android:id="@+id/syspwsettingPwresettingBtn"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="password re-setting">
+				android:text="@string/password_re_setting">
 			</Button>
 		</LinearLayout>
 
