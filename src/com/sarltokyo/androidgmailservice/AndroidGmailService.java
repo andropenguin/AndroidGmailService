@@ -232,7 +232,7 @@ public class AndroidGmailService extends Service {
 				String keyfile = KEYFILE + index + EXT;
 				out = openFileOutput(keyfile, MODE_PRIVATE);
 			} catch (FileNotFoundException e) {
-				Log.e(TAG, "key file not exists");
+//				Log.e(TAG, "key file not exists");
 				Log.e(TAG, e.getMessage(), e);
 				return AndroidGmailBase.ERROR_CODE_FILENOTFOUNDEXCEPION;
 			}
@@ -260,18 +260,6 @@ public class AndroidGmailService extends Service {
 			editor.putString("encryptedPW" + index, AndroidGmailService.this.encryptedPW);
 			editor.putString("random" + index, Long.toString(random));
 			editor.commit();
-
-			/*
-			 *  for debug - remove me
-			 */
-			String pw;
-			try {
-				pw = Crypto.decrypt(AndroidGmailService.this.key, AndroidGmailService.this.encryptedPW);
-			} catch (Exception e) {
-				Log.e(TAG, e.getMessage(), e);
-				return AndroidGmailBase.ERROR_CODE_EXCEPTION;
-			}
-			Log.i(TAG, "recovered password = " + pw);
 
 			return 0;
 		}
@@ -304,7 +292,7 @@ public class AndroidGmailService extends Service {
 		try {
 			in = openFileInput(KEYFILE + index + EXT);
 		} catch (FileNotFoundException e) {
-			Log.e(TAG, "key file not exists");
+//			Log.e(TAG, "key file not exists");
 			Log.e(TAG, e.getMessage(), e);
 			return AndroidGmailBase.ERROR_CODE_FILENOTFOUNDEXCEPION;
 		}
@@ -343,9 +331,7 @@ public class AndroidGmailService extends Service {
 
 		// read preferences
 		this.user = pref.getString("user" + index, "");
-		Log.i(TAG, "user = " + this.user); // for debug: remove me
 		this.encryptedPW = pref.getString("encryptedPW" + index, "");
-		Log.i(TAG, "encryptedPW = " + this.encryptedPW); // for debug: remove me
 
 		try {
 			this.password = Crypto.decrypt(this.key, this.encryptedPW);
@@ -353,8 +339,6 @@ public class AndroidGmailService extends Service {
 			Log.e(TAG, e.getMessage(), e);
 			return AndroidGmailBase.ERROR_CODE_EXCEPTION;
 		}
-		// for debug: remove me
-		Log.i(TAG, "password in readPreferences = " + this.password);
 
 		return 0;
 	}
@@ -394,9 +378,6 @@ public class AndroidGmailService extends Service {
 		String to = user + "@gmail.com";
 
 		Log.i(TAG, "AndroidGmailSender");
-
-		Log.i(TAG, "user = " + user);
-		Log.i(TAG, "password = " + password);
 
 		String subject = "account setting test";
 		String body = subject;
