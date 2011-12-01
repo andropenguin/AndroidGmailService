@@ -187,21 +187,23 @@ public class AndroidGmailRetriever {
 			pr("BAD CONTENT-TYPE: " + ct);
 		}
 		String filename = p.getFileName();
-		if (filename != null)
-			pr("FILENAME: " + filename);
+		if (filename != null) {
+//			pr("FILENAME: " + filename);
+		}
 
 		/*
 		 * Using isMimeType to determine the content type avoids
 		 * fetching the actual content data until we need it.
 		 */
 		if (p.isMimeType("text/plain")) {
-			pr("This is plain text");
-			pr("---------------------------");
-			if (!showStructure && !saveAttachments)
-				Log.i(TAG, (String)p.getContent());
+//			pr("This is plain text");
+//			pr("---------------------------");
+			if (!showStructure && !saveAttachments) {
+//				Log.i(TAG, (String)p.getContent());
+			}
 		} else if (p.isMimeType("multipart/*")) {
-			pr("This is a Multipart");
-			pr("---------------------------");
+//			pr("This is a Multipart");
+//			pr("---------------------------");
 			Multipart mp = (Multipart)p.getContent();
 			level++;
 			int count = mp.getCount();
@@ -209,8 +211,8 @@ public class AndroidGmailRetriever {
 				dumpPart(mp.getBodyPart(i), showStructure, saveAttachments);
 			level--;
 		} else if (p.isMimeType("message/rfc822")) {
-			pr("This is a Nested Message");
-			pr("---------------------------");
+//			pr("This is a Nested Message");
+//			pr("---------------------------");
 			level++;
 			dumpPart((Part)p.getContent(), showStructure, saveAttachments);
 			level--;
@@ -222,24 +224,25 @@ public class AndroidGmailRetriever {
 				 */
 				Object o = p.getContent();
 				if (o instanceof String) {
-					pr("This is a string");
-					pr("---------------------------");
-					Log.i(TAG, (String)o);
+//					pr("This is a string");
+//					pr("---------------------------");
+//					Log.i(TAG, (String)o);
 				} else if (o instanceof InputStream) {
-					pr("This is just an input stream");
-					pr("---------------------------");
+//					pr("This is just an input stream");
+//					pr("---------------------------");
 					InputStream is = (InputStream)o;
 					int c;
-					while ((c = is.read()) != -1)
-						Log.i(TAG, String.valueOf(c));
+					while ((c = is.read()) != -1) {
+//						Log.i(TAG, String.valueOf(c));
+					}
 				} else {
-					pr("This is an unknown type");
-					pr("---------------------------");
-					pr(o.toString());
+//					pr("This is an unknown type");
+//					pr("---------------------------");
+//					pr(o.toString());
 				}
 			} else {
-				// just a separator
-				pr("---------------------------");
+//				// just a separator
+//				pr("---------------------------");
 			}
 		}
 
@@ -249,7 +252,7 @@ public class AndroidGmailRetriever {
 			if (disp == null || disp.equalsIgnoreCase(Part.ATTACHMENT)) {
 				if (filename == null)
 					filename = "Attachment" + attnum++;
-				pr("Saving attachment to file " + filename);
+//				pr("Saving attachment to file " + filename);
 				try {
 //					File f = new File(EXTERNAL_SD, filename);
 					File f = new File(filename);
@@ -258,43 +261,45 @@ public class AndroidGmailRetriever {
 						throw new IOException("file exists");
 					((MimeBodyPart)p).saveFile(f);
 				} catch (IOException ex) {
-					pr("Failed to save attachment: " + ex);
+//					pr("Failed to save attachment: " + ex);
 				}
-				pr("---------------------------");
+//				pr("---------------------------");
 			}
 		}
 	}
 
 	public static void dumpEnvelope(Message m) throws Exception {
-		pr("This is the message envelope");
-		pr("---------------------------");
+//		pr("This is the message envelope");
+//		pr("---------------------------");
 		Address[] a;
 		// FROM
 		if ((a = m.getFrom()) != null) {
-			for (int j = 0; j < a.length; j++)
-				pr("FROM: " + a[j].toString());
+			for (int j = 0; j < a.length; j++) {
+//				pr("FROM: " + a[j].toString());
+			}
 		}
 
 		// TO
 		if ((a = m.getRecipients(Message.RecipientType.TO)) != null) {
 			for (int j = 0; j < a.length; j++) {
-				pr("TO: " + a[j].toString());
+//				pr("TO: " + a[j].toString());
 				InternetAddress ia = (InternetAddress)a[j];
 				if (ia.isGroup()) {
 					InternetAddress[] aa = ia.getGroup(false);
-					for (int k = 0; k < aa.length; k++)
-						pr("  GROUP: " + aa[k].toString());
+					for (int k = 0; k < aa.length; k++) {
+//						pr("  GROUP: " + aa[k].toString());
+					}
 				}
 			}
 		}
 
 		// SUBJECT
-		pr("SUBJECT: " + m.getSubject());
+//		pr("SUBJECT: " + m.getSubject());
 
 		// DATE
 		Date d = m.getSentDate();
-		pr("SendDate: " +
-				(d != null ? d.toString() : "UNKNOWN"));
+//		pr("SendDate: " +
+//				(d != null ? d.toString() : "UNKNOWN"));
 
 		// FLAGS
 		Flags flags = m.getFlags();
@@ -334,19 +339,21 @@ public class AndroidGmailRetriever {
 				sb.append(' ');
 			sb.append(uf[i]);
 		}
-		pr("FLAGS: " + sb.toString());
+//		pr("FLAGS: " + sb.toString());
 
 		// X-MAILER
 		String[] hdrs = m.getHeader("X-Mailer");
-		if (hdrs != null)
-			pr("X-Mailer: " + hdrs[0]);
-		else
-			pr("X-Mailer NOT available");
+		if (hdrs != null) {
+//			pr("X-Mailer: " + hdrs[0]);
+		}
+		else {
+//			pr("X-Mailer NOT available");
+		}
 	}
 
 	static int level = 0;
 
 	public static void pr(String s) {
-		Log.i(TAG, s);
+//		Log.i(TAG, s);
 	}
 }
