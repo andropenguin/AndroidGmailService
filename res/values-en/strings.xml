@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroidGmailService</string>
+    <string name="error">error</string>
+    <string name="system_passwords_not_the_same">Two system passwords are not the same.</string>
+    <string name="system_password_set">System password was set.</string>
+    <string name="enter_system_password">Enter system password.</string>
+	<string name="enter_new_system_password">Enter new system password.</string>
+	<string name="system_password_is_wrong">Ststem password is wrong.</string>
+	<string name="System_password_setting">System password setting</string>
+	<string name="have_to_set_system_password">You have to set system password for AndroidGmailService. This password is used by applications which use this service application. Caution! It is not a gmail password.</string>
+	<string name="system_password">system password:\s</string>
+	<string name="re_enter">re-enter:\s</string>
+	<string name="set">set</string>
+	<string name="password_re_setting">password re-setting</string>
+	<string name="System_password_re_setting">System password re-setting</string>
+	<string name="return_">return</string>
+	<string name="old_password">old \n password:\s</string>
+	<string name="new_password">new \n password:\s</string>
+	<string name="re_set">re-set</string>
+</resources>
