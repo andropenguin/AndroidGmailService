@@ -18,4 +18,5 @@
 	<string name="old_password">old \n password:\s</string>
 	<string name="new_password">new \n password:\s</string>
 	<string name="re_set">re-set</string>
+	<string name="license">License</string>
 </resources>

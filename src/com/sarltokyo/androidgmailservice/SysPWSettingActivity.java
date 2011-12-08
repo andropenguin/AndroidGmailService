@@ -40,6 +40,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,6 +58,8 @@ public class SysPWSettingActivity extends Activity {
 	private String reenteredpw;
 	private Key syskey;
 	private String encryptedSysPW;
+	
+	private final static int MENU_ITEM0 = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -156,6 +160,27 @@ public class SysPWSettingActivity extends Activity {
 
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		
+		MenuItem item = menu.add(0, MENU_ITEM0, 0, getString(R.string.license));
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case MENU_ITEM0:
+			Intent intent = new Intent(SysPWSettingActivity.this,
+					LicenseActivity.class);
+			startActivity(intent);
+			return true;
+		default:
+			return true;
+		}
+	}
+	
 	public void saveSysKey() {
 		InputStream in = null;
 		OutputStream out = null;

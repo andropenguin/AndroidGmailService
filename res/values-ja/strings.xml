@@ -18,4 +18,5 @@
 	<string name="old_password">旧\nパスワード:\s</string>
 	<string name="new_password">新\nパスワード:\s</string>
 	<string name="re_set">再設定</string>
+	<string name="license">ライセンス</string>
 </resources>
