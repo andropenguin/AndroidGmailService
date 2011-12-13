@@ -1,0 +1,4 @@
+# ignore bin and gen direcotries
+bin/
+gen/
+
