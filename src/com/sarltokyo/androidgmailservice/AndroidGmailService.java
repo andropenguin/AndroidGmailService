@@ -394,6 +394,10 @@ public class AndroidGmailService extends Service {
 
 		// read number of messages in mailbox
 		int msgNumberPre = getMessageNumber(user, password, index);
+		if (msgNumberPre < 0) {
+			// Exception
+			return msgNumberPre;
+		}
 
 		Log.i(TAG, "sendMail");
 
@@ -481,6 +485,11 @@ public class AndroidGmailService extends Service {
 		// read number of messages in mailbox
 		int msgNumberPre = getMessageNumber(user, password, index);
 
+		if (msgNumberPre < 0) {
+			// Exception
+			return msgNumberPre;
+		}
+		
 		try {
 			this.s = new AndroidGmailSender(user, password);
 		} catch (NoSuchProviderException e) {
