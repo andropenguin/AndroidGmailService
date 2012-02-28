@@ -25,13 +25,13 @@ package com.sarltokyo.androidgmailservice;
  *  http://www.gnu.org/copyleft/gpl.html
 */
 
-import java.io.FileNotFoundException;
+//import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.security.Key;
+//import java.io.InputStream;
+//import java.io.ObjectInputStream;
+//import java.io.ObjectOutputStream;
+//import java.io.OutputStream;
+//import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -63,10 +63,10 @@ public class AndroidGmailService extends Service {
 
 	private static final String TAG = "AndroidGmailService";
 	private String user;
-	private Key key;
+	private SecretKey key;
 	private String encryptedPW;
 	private String password;
-	private Key syskey;
+	private SecretKey syskey;
 	private String encryptedSysPW;
 
 	private static final String HOST = "smtp.gmail.com";
@@ -74,8 +74,8 @@ public class AndroidGmailService extends Service {
 	private Message[] m;
 	private AndroidGmailSender s;
 	private AndroidGmailRetriever r;
-	private static final String KEYFILE = "key";
-	private static final String EXT = ".txt";
+//	private static final String KEYFILE = "key";
+//	private static final String EXT = ".txt";
 	private static final String PREF_TMP = "AndroidGmailServiceTmp";
 	private static final String PREF = "AndroidGmailService";
 
@@ -223,43 +223,53 @@ public class AndroidGmailService extends Service {
 		@Override
 		public int writePreferences(String user, String password, long random, int index)
 		throws RemoteException {
-			OutputStream out = null;
-
+//			OutputStream out = null;
+			
+			SecretKey key = null;
 			try {
-				AndroidGmailService.this.key = Crypto.makeKey(128);
+				key = generateKey(getApplicationContext(), index);
+			} catch (InvalidKeySpecException e) {
+				Log.e(TAG, e.getMessage(), e);
+				return AndroidGmailBase.ERROR_CODE_INVALIDKEYEXCEPTION;
 			} catch (NoSuchAlgorithmException e) {
 				Log.e(TAG, e.getMessage(), e);
 				return AndroidGmailBase.ERROR_CODE_NOSUCHALGOLITHMEXCEPTION;
 			}
+//			try {
+//				AndroidGmailService.this.key = Crypto.makeKey(128);
+//			} catch (NoSuchAlgorithmException e) {
+//				Log.e(TAG, e.getMessage(), e);
+//				return AndroidGmailBase.ERROR_CODE_NOSUCHALGOLITHMEXCEPTION;
+//			}
 			try {
 				AndroidGmailService.this.encryptedPW = Crypto.encrypt(AndroidGmailService.this.key, password);
 			} catch(Exception e) {
 				Log.e(TAG, e.getMessage(), e);
 				return AndroidGmailBase.ERROR_CODE_EXCEPTION;
 			}
-			try {
-				String keyfile = KEYFILE + index + EXT;
-				out = openFileOutput(keyfile, MODE_PRIVATE);
-			} catch (FileNotFoundException e) {
-//				Log.e(TAG, "key file not exists");
-				Log.e(TAG, e.getMessage(), e);
-				return AndroidGmailBase.ERROR_CODE_FILENOTFOUNDEXCEPION;
-			}
-			try {
-				ObjectOutputStream oos = new ObjectOutputStream(out);
-				oos.writeObject(AndroidGmailService.this.key);
-				oos.flush();
-				oos.close();
-				out.close();
-			} catch (IOException e) {
-				Log.e(TAG, e.getMessage(), e);
-				try {
-					if (out != null) out.close();
-				} catch (IOException e2) {
-					Log.e(TAG, e2.getMessage(), e2);
-				}
-				return AndroidGmailBase.ERROR_CODE_IOEXCEPTION;
-			}
+//			try {
+//				String keyfile = KEYFILE + index + EXT;
+//				out = openFileOutput(keyfile, MODE_PRIVATE);
+//			} catch (FileNotFoundException e) {
+////				Log.e(TAG, "key file not exists");
+//				Log.e(TAG, e.getMessage(), e);
+//				return AndroidGmailBase.ERROR_CODE_FILENOTFOUNDEXCEPION;
+//			}
+//			try {
+//				ObjectOutputStream oos = new ObjectOutputStream(out);
+//				oos.writeObject(AndroidGmailService.this.key);
+//				oos.flush();
+//				oos.close();
+//				out.close();
+//			} catch (IOException e) {
+//				Log.e(TAG, e.getMessage(), e);
+//				try {
+//					if (out != null) out.close();
+//				} catch (IOException e2) {
+//					Log.e(TAG, e2.getMessage(), e2);
+//				}
+//				return AndroidGmailBase.ERROR_CODE_IOEXCEPTION;
+//			}
 
 			// get SharedPreferences object
 			SharedPreferences pref = getSharedPreferences(PREF, MODE_PRIVATE);
@@ -295,45 +305,55 @@ public class AndroidGmailService extends Service {
 	}
 
 	private int readPreferenceConc(int index) {
-		InputStream in = null;
-
-		Log.i(TAG, "before openFileInput");
+		
 		try {
-			in = openFileInput(KEYFILE + index + EXT);
-		} catch (FileNotFoundException e) {
-//			Log.e(TAG, "key file not exists");
+			key = generateKey(getApplicationContext(), index);
+		} catch (InvalidKeySpecException e) {
 			Log.e(TAG, e.getMessage(), e);
-			return AndroidGmailBase.ERROR_CODE_FILENOTFOUNDEXCEPION;
+			return AndroidGmailBase.ERROR_CODE_INVALIDKEYEXCEPTION;
+		} catch (NoSuchAlgorithmException e) {
+			Log.e(TAG, e.getMessage(), e);
+			return AndroidGmailBase.ERROR_CODE_NOSUCHALGOLITHMEXCEPTION;
 		}
-		Log.i(TAG, "before ObjectInputStream");
-		try {
-			ObjectInputStream ois = new ObjectInputStream(in);
-			Log.i(TAG, "before readObject");
-			this.key = (Key)ois.readObject();
-			Log.i(TAG, "after readObject");
-			ois.close();
-			in.close();
-		} catch (IOException e) {
-			Log.e(TAG, e.getMessage(), e);
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e2) {
-					Log.e(TAG, "IOException");
-				}
-			}
-			return AndroidGmailBase.ERROR_CODE_IOEXCEPTION;
-		} catch (ClassNotFoundException e) {
-			Log.e(TAG, e.getMessage(), e);
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e2) {
-					Log.e(TAG, "IOException");
-				}
-			}
-			return AndroidGmailBase.ERROR_CODE_CLASSNOTFOUNDEXCEPTION;
-		}
+//		InputStream in = null;
+//
+//		Log.i(TAG, "before openFileInput");
+//		try {
+//			in = openFileInput(KEYFILE + index + EXT);
+//		} catch (FileNotFoundException e) {
+////			Log.e(TAG, "key file not exists");
+//			Log.e(TAG, e.getMessage(), e);
+//			return AndroidGmailBase.ERROR_CODE_FILENOTFOUNDEXCEPION;
+//		}
+//		Log.i(TAG, "before ObjectInputStream");
+//		try {
+//			ObjectInputStream ois = new ObjectInputStream(in);
+//			Log.i(TAG, "before readObject");
+//			this.key = (Key)ois.readObject();
+//			Log.i(TAG, "after readObject");
+//			ois.close();
+//			in.close();
+//		} catch (IOException e) {
+//			Log.e(TAG, e.getMessage(), e);
+//			if (in != null) {
+//				try {
+//					in.close();
+//				} catch (IOException e2) {
+//					Log.e(TAG, "IOException");
+//				}
+//			}
+//			return AndroidGmailBase.ERROR_CODE_IOEXCEPTION;
+//		} catch (ClassNotFoundException e) {
+//			Log.e(TAG, e.getMessage(), e);
+//			if (in != null) {
+//				try {
+//					in.close();
+//				} catch (IOException e2) {
+//					Log.e(TAG, "IOException");
+//				}
+//			}
+//			return AndroidGmailBase.ERROR_CODE_CLASSNOTFOUNDEXCEPTION;
+//		}
 
 		// get SharedPreferences object
 		SharedPreferences pref = getSharedPreferences(PREF, MODE_PRIVATE);
@@ -927,6 +947,18 @@ public class AndroidGmailService extends Service {
     	return password.toCharArray();
     }
     
+    public char[] generatePassword(Context context, int index) {
+    	String orignal_id = getOriginalID(context);
+    	
+    	// get the package name of the application
+    	String packageName = context.getPackageName();
+    	
+    	// generate the password for Key
+    	String password = orignal_id + packageName + index;
+    	
+    	return password.toCharArray();
+    }
+    
     private static final byte[] SALT = new byte[] {
     	12, -32, 124, 4, 19, 45, -93, -23, 45, 23,
     	3, 37, -10, 114, 14, 56, 23, 85, 29, 64
@@ -936,6 +968,20 @@ public class AndroidGmailService extends Service {
     		throws NoSuchAlgorithmException, InvalidKeySpecException {
     	// get password to generate Key
     	char[] password = generatePassword(context);
+    	
+    	// generate Key
+    	KeySpec keySpec = new PBEKeySpec(password, SALT, 1024, 256);
+    	SecretKeyFactory factory = SecretKeyFactory.getInstance("PBEWITHSHAAND256BITAES-CBC-BC");
+    	SecretKey secretKey = factory.generateSecret(keySpec);
+    	
+    	return secretKey;
+    	
+    }
+    
+    public SecretKey generateKey(Context context, int index)
+    		throws NoSuchAlgorithmException, InvalidKeySpecException {
+    	// get password to generate Key
+    	char[] password = generatePassword(context, index);
     	
     	// generate Key
     	KeySpec keySpec = new PBEKeySpec(password, SALT, 1024, 256);
