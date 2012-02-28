@@ -27,14 +27,30 @@ package com.sarltokyo.androidgmailservice;
 
 
 import java.security.Key;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Date;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.provider.Settings.Secure;
 import android.util.Log;
 
 public class Crypto {
 	private static final String TAG = "Crypto";
+	
+	private static final byte[] IV =
+		{ 23, -12, 90, 27, 56, 92, 0, 1, 54, 26, 88, -12, 34, 55, 39, 49};
 
 	public static Key makeKey(int key_bits) throws NoSuchAlgorithmException {
 		Key key = null;
@@ -47,8 +63,8 @@ public class Crypto {
 
 	public static String encrypt(Key key, String data) throws Exception {
 		try {
-			Cipher c = Cipher.getInstance("AES/ECB/PKCS5Padding");
-			c.init(Cipher.ENCRYPT_MODE, key);
+			Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			c.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(IV));
 			byte[] b = c.doFinal(data.getBytes());
 			return Base64.encode(b);
 		} catch (Exception e) {
@@ -60,8 +76,8 @@ public class Crypto {
 	public static String decrypt(Key key, String encryptedData) throws Exception {
 		String data = null;
 		try {
-			Cipher c = Cipher.getInstance("AES/ECB/PKCS5Padding");
-			c.init(Cipher.DECRYPT_MODE, key);
+			Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			c.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(IV));
 			data = new String(c.doFinal(Base64.decode(encryptedData)));
 			return data;
 		} catch (Exception e) {

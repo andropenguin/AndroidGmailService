@@ -32,13 +32,24 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.security.Key;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,10 +110,10 @@ public class SysPWSettingActivity extends Activity {
 				if (syspw != null && syspw.length() > 0
 						&& reenteredpw != null && reenteredpw.length() > 0) {
 					if (syspw.equals(reenteredpw)) {
-						saveSysKey();
-						syskey = getSysKey();
+//						saveSysKey();
+//						syskey = getSysKey();
 						try {
-							encryptedSysPW = getEncryptedSysPW(syspw);
+							encryptedSysPW = getEncryptedSysPW(getApplicationContext(), syspw);
 						} catch (Exception e) {
 							Log.e(TAG, e.getMessage(), e);
 							return;
@@ -181,86 +192,155 @@ public class SysPWSettingActivity extends Activity {
 		}
 	}
 	
-	public void saveSysKey() {
-		InputStream in = null;
-		OutputStream out = null;
-		boolean existFlag = true;
+//	public void saveSysKey() {
+//		InputStream in = null;
+//		OutputStream out = null;
+//		boolean existFlag = true;
+//
+//		try {
+//			in = openFileInput(AndroidGmailConstant.SYSKEY_FILE);
+//		} catch (FileNotFoundException e) {
+//			existFlag = false;
+//			Log.e(TAG, e.getMessage(), e);
+//		}
+//
+//		try {
+//			if (in != null) in.close();
+//		} catch (IOException e) {
+//			Log.e(TAG, e.getMessage(), e);
+//		}
+//
+//		if (!existFlag) {
+//			try {
+//				syskey = Crypto.makeKey(128);
+//			} catch (NoSuchAlgorithmException e) {
+//				Log.e(TAG, e.getMessage(), e);
+//			}
+//			try {
+//				out = openFileOutput(AndroidGmailConstant.SYSKEY_FILE, MODE_PRIVATE);
+//			} catch (FileNotFoundException e) {
+//				Log.e(TAG, e.getMessage(), e);
+//			}
+//			try {
+//				ObjectOutputStream oos = new ObjectOutputStream(out);
+//				oos.writeObject(syskey);
+//				oos.flush();
+//				oos.close();
+//				out.close();
+//			} catch (IOException e) {
+//				Log.e(TAG, e.getMessage(), e);
+//				try {
+//					if (out != null) out.close();
+//				} catch (IOException e2) {
+//					Log.e(TAG, e2.getMessage(), e2);
+//				}
+//			}
+//		}
+//	}
+//
+//    public Key getSysKey() {
+//    	InputStream in = null;
+//
+//    	try {
+//    		in = openFileInput(AndroidGmailConstant.SYSKEY_FILE);
+//    	} catch (FileNotFoundException e) {
+//    		Log.e(TAG, e.getMessage(), e);
+//    	}
+//    	try {
+//    		ObjectInputStream ois = new ObjectInputStream(in);
+//    		syskey = (Key)ois.readObject();
+//    		ois.close();
+//    		in.close();
+//    	} catch (IOException e) {
+//    		Log.e(TAG, e.getMessage(), e);
+//    		try {
+//    			if (in != null) in.close();
+//    		} catch (IOException e2) {
+//    			Log.e(TAG, e2.getMessage(), e2);
+//    		}
+//    	} catch (ClassNotFoundException e) {
+//    		Log.e(TAG, e.getMessage(), e);
+//    		try {
+//    			if (in != null) in.close();
+//    		} catch (IOException e2) {
+//    			Log.e(TAG, e2.getMessage(), e2);
+//    		}
+//    	}
+//    	return syskey;
+//    }
 
-		try {
-			in = openFileInput(AndroidGmailConstant.SYSKEY_FILE);
-		} catch (FileNotFoundException e) {
-			existFlag = false;
-			Log.e(TAG, e.getMessage(), e);
-		}
-
-		try {
-			if (in != null) in.close();
-		} catch (IOException e) {
-			Log.e(TAG, e.getMessage(), e);
-		}
-
-		if (!existFlag) {
-			try {
-				syskey = Crypto.makeKey(128);
-			} catch (NoSuchAlgorithmException e) {
-				Log.e(TAG, e.getMessage(), e);
-			}
-			try {
-				out = openFileOutput(AndroidGmailConstant.SYSKEY_FILE, MODE_PRIVATE);
-			} catch (FileNotFoundException e) {
-				Log.e(TAG, e.getMessage(), e);
-			}
-			try {
-				ObjectOutputStream oos = new ObjectOutputStream(out);
-				oos.writeObject(syskey);
-				oos.flush();
-				oos.close();
-				out.close();
-			} catch (IOException e) {
-				Log.e(TAG, e.getMessage(), e);
-				try {
-					if (out != null) out.close();
-				} catch (IOException e2) {
-					Log.e(TAG, e2.getMessage(), e2);
-				}
-			}
-		}
-	}
-
-    public Key getSysKey() {
-    	InputStream in = null;
-
-    	try {
-    		in = openFileInput(AndroidGmailConstant.SYSKEY_FILE);
-    	} catch (FileNotFoundException e) {
-    		Log.e(TAG, e.getMessage(), e);
-    	}
-    	try {
-    		ObjectInputStream ois = new ObjectInputStream(in);
-    		syskey = (Key)ois.readObject();
-    		ois.close();
-    		in.close();
-    	} catch (IOException e) {
-    		Log.e(TAG, e.getMessage(), e);
-    		try {
-    			if (in != null) in.close();
-    		} catch (IOException e2) {
-    			Log.e(TAG, e2.getMessage(), e2);
-    		}
-    	} catch (ClassNotFoundException e) {
-    		Log.e(TAG, e.getMessage(), e);
-    		try {
-    			if (in != null) in.close();
-    		} catch (IOException e2) {
-    			Log.e(TAG, e2.getMessage(), e2);
-    		}
-    	}
-    	return syskey;
-    }
-
-    public String getEncryptedSysPW(String syspw) throws Exception {
-    	syskey = getSysKey();
+    public String getEncryptedSysPW(Context context, String syspw) throws Exception {
+//    	syskey = getSysKey();
+    	syskey = generateKey(context);
     	encryptedSysPW = Crypto.encrypt(syskey, syspw);
     	return encryptedSysPW;
+    }
+
+    public char[] generatePassword(Context context) {
+    	String orignal_id = getOriginalID();
+    	
+    	// get the package name of the application
+    	String packageName = context.getPackageName();
+    	
+    	// generate the password for Key
+    	String password = orignal_id + packageName;
+    	
+    	return password.toCharArray();
+    }
+    
+    private static final byte[] SALT = new byte[] {
+    	12, -32, 124, 4, 19, 45, -93, -23, 45, 23,
+    	3, 37, -10, 114, 14, 56, 23, 85, 29, 64
+    };
+
+    public SecretKey generateKey(Context context)
+    		throws NoSuchAlgorithmException, InvalidKeySpecException {
+    	// get password to generate Key
+    	char[] password = generatePassword(context);
+    	
+    	// generate Key
+    	KeySpec keySpec = new PBEKeySpec(password, SALT, 1024, 256);
+    	SecretKeyFactory factory = SecretKeyFactory.getInstance("PBEWITHSHAAND256BITAES-CBC-BC");
+    	SecretKey secretKey = factory.generateSecret(keySpec);
+    	
+    	return secretKey;
+    	
+    }
+    
+    public String getOriginalID() {
+    	SharedPreferences pref = getSharedPreferences("id", MODE_PRIVATE);
+    	String original_id = pref.getString("original_id", "");
+    	if (original_id.length() == 0) {
+    		String android_id = Secure.getString(getContentResolver(),
+    				Secure.ANDROID_ID);
+    		long now = (long)(new Date().getTime() / 1000);
+    		original_id = createDigest(android_id + "_" + now);
+    		pref.edit().putString("original_id", original_id).commit();
+    	}
+    	return original_id;
+    }
+    
+    public String createDigest(String source) {
+    	try {
+    		MessageDigest md = MessageDigest.getInstance("MD5");
+
+    		byte[] data = source.getBytes();
+    		md.update(data);
+
+    		byte[] digest = md.digest();
+
+    		StringBuilder sb = new StringBuilder();
+    		for (int i = 0; i < digest.length; i++) {
+    			int b = 0xFF & digest[i];
+    			if (b < 16) {
+    				sb.append("0");
+    			}
+    			sb.append(Integer.toHexString(b));
+    		}
+    		return sb.toString();
+    	} catch (NoSuchAlgorithmException e) {
+    		Log.e(TAG, e.getMessage(), e);
+    	}
+    	return "";
     }
 }
