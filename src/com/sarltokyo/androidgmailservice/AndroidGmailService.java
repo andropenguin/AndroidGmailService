@@ -27,21 +27,14 @@ package com.sarltokyo.androidgmailservice;
 
 //import java.io.FileNotFoundException;
 import java.io.IOException;
-//import java.io.InputStream;
-//import java.io.ObjectInputStream;
-//import java.io.ObjectOutputStream;
-//import java.io.OutputStream;
-//import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Date;
-
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.mail.Address;
 import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -49,7 +42,6 @@ import javax.mail.NoSuchProviderException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -67,15 +59,12 @@ public class AndroidGmailService extends Service {
 	private String encryptedPW;
 	private String password;
 	private SecretKey syskey;
-	private String encryptedSysPW;
 
 	private static final String HOST = "smtp.gmail.com";
 	private static final String PROTOCOL = "imaps";
 	private Message[] m;
 	private AndroidGmailSender s;
 	private AndroidGmailRetriever r;
-//	private static final String KEYFILE = "key";
-//	private static final String EXT = ".txt";
 	private static final String PREF_TMP = "AndroidGmailServiceTmp";
 	private static final String PREF = "AndroidGmailService";
 
@@ -235,41 +224,13 @@ public class AndroidGmailService extends Service {
 				Log.e(TAG, e.getMessage(), e);
 				return AndroidGmailBase.ERROR_CODE_NOSUCHALGOLITHMEXCEPTION;
 			}
-//			try {
-//				AndroidGmailService.this.key = Crypto.makeKey(128);
-//			} catch (NoSuchAlgorithmException e) {
-//				Log.e(TAG, e.getMessage(), e);
-//				return AndroidGmailBase.ERROR_CODE_NOSUCHALGOLITHMEXCEPTION;
-//			}
+
 			try {
 				AndroidGmailService.this.encryptedPW = Crypto.encrypt(key, password);
 			} catch(Exception e) {
 				Log.e(TAG, e.getMessage(), e);
 				return AndroidGmailBase.ERROR_CODE_EXCEPTION;
 			}
-//			try {
-//				String keyfile = KEYFILE + index + EXT;
-//				out = openFileOutput(keyfile, MODE_PRIVATE);
-//			} catch (FileNotFoundException e) {
-////				Log.e(TAG, "key file not exists");
-//				Log.e(TAG, e.getMessage(), e);
-//				return AndroidGmailBase.ERROR_CODE_FILENOTFOUNDEXCEPION;
-//			}
-//			try {
-//				ObjectOutputStream oos = new ObjectOutputStream(out);
-//				oos.writeObject(AndroidGmailService.this.key);
-//				oos.flush();
-//				oos.close();
-//				out.close();
-//			} catch (IOException e) {
-//				Log.e(TAG, e.getMessage(), e);
-//				try {
-//					if (out != null) out.close();
-//				} catch (IOException e2) {
-//					Log.e(TAG, e2.getMessage(), e2);
-//				}
-//				return AndroidGmailBase.ERROR_CODE_IOEXCEPTION;
-//			}
 
 			// get SharedPreferences object
 			SharedPreferences pref = getSharedPreferences(PREF, MODE_PRIVATE);
@@ -315,45 +276,6 @@ public class AndroidGmailService extends Service {
 			Log.e(TAG, e.getMessage(), e);
 			return AndroidGmailBase.ERROR_CODE_NOSUCHALGOLITHMEXCEPTION;
 		}
-//		InputStream in = null;
-//
-//		Log.i(TAG, "before openFileInput");
-//		try {
-//			in = openFileInput(KEYFILE + index + EXT);
-//		} catch (FileNotFoundException e) {
-////			Log.e(TAG, "key file not exists");
-//			Log.e(TAG, e.getMessage(), e);
-//			return AndroidGmailBase.ERROR_CODE_FILENOTFOUNDEXCEPION;
-//		}
-//		Log.i(TAG, "before ObjectInputStream");
-//		try {
-//			ObjectInputStream ois = new ObjectInputStream(in);
-//			Log.i(TAG, "before readObject");
-//			this.key = (Key)ois.readObject();
-//			Log.i(TAG, "after readObject");
-//			ois.close();
-//			in.close();
-//		} catch (IOException e) {
-//			Log.e(TAG, e.getMessage(), e);
-//			if (in != null) {
-//				try {
-//					in.close();
-//				} catch (IOException e2) {
-//					Log.e(TAG, "IOException");
-//				}
-//			}
-//			return AndroidGmailBase.ERROR_CODE_IOEXCEPTION;
-//		} catch (ClassNotFoundException e) {
-//			Log.e(TAG, e.getMessage(), e);
-//			if (in != null) {
-//				try {
-//					in.close();
-//				} catch (IOException e2) {
-//					Log.e(TAG, "IOException");
-//				}
-//			}
-//			return AndroidGmailBase.ERROR_CODE_CLASSNOTFOUNDEXCEPTION;
-//		}
 
 		// get SharedPreferences object
 		SharedPreferences pref = getSharedPreferences(PREF, MODE_PRIVATE);
@@ -860,7 +782,6 @@ public class AndroidGmailService extends Service {
 		String encryptedSysPW = "";
 		String savedEncryptedSysPW = "";
 		// encrypt syspw
-//		syskey = getSysKey();
 		try {
 			encryptedSysPW = getEncryptedSysPW(getApplicationContext(), syspw);
 		} catch (Exception e)  {
@@ -897,39 +818,7 @@ public class AndroidGmailService extends Service {
 		}
 	}
 
-//    public Key getSysKey() {
-//    	InputStream in = null;
-//
-//    	try {
-//    		in = openFileInput(AndroidGmailConstant.SYSKEY_FILE);
-//    	} catch (FileNotFoundException e) {
-//    		Log.e(TAG, e.getMessage(), e);
-//    	}
-//    	try {
-//    		ObjectInputStream ois = new ObjectInputStream(in);
-//    		syskey = (Key)ois.readObject();
-//    		ois.close();
-//    		in.close();
-//    	} catch (IOException e) {
-//    		Log.e(TAG, e.getMessage(), e);
-//    		try {
-//    			if (in != null) in.close();
-//    		} catch (IOException e2) {
-//    			Log.e(TAG, e2.getMessage(), e2);
-//    		}
-//    	} catch (ClassNotFoundException e) {
-//    		Log.e(TAG, e.getMessage(), e);
-//    		try {
-//    			if (in != null) in.close();
-//    		} catch (IOException e2) {
-//    			Log.e(TAG, e2.getMessage(), e2);
-//    		}
-//    	}
-//    	return syskey;
-//    }
-
     public String getEncryptedSysPW(Context context,String syspw) throws Exception {
-//    	syskey = getSysKey();
     	syskey = generateKey(context);
     	String encryptedSysPW = Crypto.encrypt(syskey, syspw);
     	return encryptedSysPW;

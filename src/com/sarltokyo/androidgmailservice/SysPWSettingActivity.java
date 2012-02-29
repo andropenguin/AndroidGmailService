@@ -25,23 +25,15 @@ package com.sarltokyo.androidgmailservice;
  *  http://www.gnu.org/copyleft/gpl.html
  */
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Date;
-
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -110,8 +102,6 @@ public class SysPWSettingActivity extends Activity {
 				if (syspw != null && syspw.length() > 0
 						&& reenteredpw != null && reenteredpw.length() > 0) {
 					if (syspw.equals(reenteredpw)) {
-//						saveSysKey();
-//						syskey = getSysKey();
 						try {
 							encryptedSysPW = getEncryptedSysPW(getApplicationContext(), syspw);
 						} catch (Exception e) {
@@ -192,85 +182,7 @@ public class SysPWSettingActivity extends Activity {
 		}
 	}
 	
-//	public void saveSysKey() {
-//		InputStream in = null;
-//		OutputStream out = null;
-//		boolean existFlag = true;
-//
-//		try {
-//			in = openFileInput(AndroidGmailConstant.SYSKEY_FILE);
-//		} catch (FileNotFoundException e) {
-//			existFlag = false;
-//			Log.e(TAG, e.getMessage(), e);
-//		}
-//
-//		try {
-//			if (in != null) in.close();
-//		} catch (IOException e) {
-//			Log.e(TAG, e.getMessage(), e);
-//		}
-//
-//		if (!existFlag) {
-//			try {
-//				syskey = Crypto.makeKey(128);
-//			} catch (NoSuchAlgorithmException e) {
-//				Log.e(TAG, e.getMessage(), e);
-//			}
-//			try {
-//				out = openFileOutput(AndroidGmailConstant.SYSKEY_FILE, MODE_PRIVATE);
-//			} catch (FileNotFoundException e) {
-//				Log.e(TAG, e.getMessage(), e);
-//			}
-//			try {
-//				ObjectOutputStream oos = new ObjectOutputStream(out);
-//				oos.writeObject(syskey);
-//				oos.flush();
-//				oos.close();
-//				out.close();
-//			} catch (IOException e) {
-//				Log.e(TAG, e.getMessage(), e);
-//				try {
-//					if (out != null) out.close();
-//				} catch (IOException e2) {
-//					Log.e(TAG, e2.getMessage(), e2);
-//				}
-//			}
-//		}
-//	}
-//
-//    public Key getSysKey() {
-//    	InputStream in = null;
-//
-//    	try {
-//    		in = openFileInput(AndroidGmailConstant.SYSKEY_FILE);
-//    	} catch (FileNotFoundException e) {
-//    		Log.e(TAG, e.getMessage(), e);
-//    	}
-//    	try {
-//    		ObjectInputStream ois = new ObjectInputStream(in);
-//    		syskey = (Key)ois.readObject();
-//    		ois.close();
-//    		in.close();
-//    	} catch (IOException e) {
-//    		Log.e(TAG, e.getMessage(), e);
-//    		try {
-//    			if (in != null) in.close();
-//    		} catch (IOException e2) {
-//    			Log.e(TAG, e2.getMessage(), e2);
-//    		}
-//    	} catch (ClassNotFoundException e) {
-//    		Log.e(TAG, e.getMessage(), e);
-//    		try {
-//    			if (in != null) in.close();
-//    		} catch (IOException e2) {
-//    			Log.e(TAG, e2.getMessage(), e2);
-//    		}
-//    	}
-//    	return syskey;
-//    }
-
     public String getEncryptedSysPW(Context context, String syspw) throws Exception {
-//    	syskey = getSysKey();
     	syskey = generateKey(context);
     	encryptedSysPW = Crypto.encrypt(syskey, syspw);
     	return encryptedSysPW;
