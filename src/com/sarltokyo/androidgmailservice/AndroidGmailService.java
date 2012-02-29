@@ -242,7 +242,7 @@ public class AndroidGmailService extends Service {
 //				return AndroidGmailBase.ERROR_CODE_NOSUCHALGOLITHMEXCEPTION;
 //			}
 			try {
-				AndroidGmailService.this.encryptedPW = Crypto.encrypt(AndroidGmailService.this.key, password);
+				AndroidGmailService.this.encryptedPW = Crypto.encrypt(key, password);
 			} catch(Exception e) {
 				Log.e(TAG, e.getMessage(), e);
 				return AndroidGmailBase.ERROR_CODE_EXCEPTION;
