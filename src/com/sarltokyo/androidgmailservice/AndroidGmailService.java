@@ -3,9 +3,9 @@ package com.sarltokyo.androidgmailservice;
 /**
  * AndroidGmailService.java
  *
- * Copyright (C) 2011
+ * Copyright (C) 2012
  * @author OSABE Satoshi, e-mail address: andropenguin@gmail.com
- * @version 1.0
+ * @version 1.0.0
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
