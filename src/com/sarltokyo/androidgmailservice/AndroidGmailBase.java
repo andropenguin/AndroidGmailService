@@ -25,6 +25,7 @@ public class AndroidGmailBase {
 
 	public final static int KIND_SAMPLE_MAILER = 0;
 	public final static int KIND_RECORDROIDAD = 1;
+	public final static int KIND_SECURERECORDER = 2;
 	
 	protected final static String PACKAGE_NAME = "com.sarltokyo.androidgmailservice";
 }
